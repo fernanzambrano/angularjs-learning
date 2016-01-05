@@ -1,18 +1,20 @@
 <!DOCTYPE html>
+
+
 <html ng-app="gemStore">
   <head>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script type="text/javascript" src="app.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+      integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   </head>
-  <body ng-controller="StoreController as store">
-    <div class="product row">
-      <h3>
-        {{store.product.name}}
-        <em class="pull-right">
-        {{store.product.price}}
-        </em>
-      </h3>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+
+<body ng-controller="StoreController as store">
+  <lu>
+    <div ng-repeat="product in store.products" ng-show="product.visible">
+      <li>{{product.name}} -------- {{product.price}} -------- <button ng-hide="product.canPurchase">Comprar</button> </li>
+      {{"El precio del producto "+ product.name + " multiplicado por 3 es " + 3*product.price}}
     </div>
-  </body>
+  </lu>
+</body>
 </html>
