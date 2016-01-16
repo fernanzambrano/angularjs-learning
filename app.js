@@ -1,10 +1,10 @@
 (function(){
 	
  	var gems = [
- 				{ name: 'Azurite 1', price: 3.00, visible: true, canPurchase: false },
- 				{ name: 'Azurite 2', price: 4.00, visible: true, canPurchase: true },
- 				{ name: 'Azurite 3', price: 2.00, visible: false, canPurchase: true },
- 				{ name: 'Azurite 4', price: 1.00, visible: true, canPurchase: false }
+ 				{ name: 'Azurite 1', price: 3.00, visible: true, canPurchase: false, dateInput: '1452950043541' },
+ 				{ name: 'Azurite 2', price: 4.00, visible: true, canPurchase: true, dateInput: '1452950043541' },
+ 				{ name: 'Azurite 3', price: 2.00, visible: false, canPurchase: true, dateInput: '1452950043541' },
+ 				{ name: 'Azurite 4', price: 1.00, visible: true, canPurchase: false, dateInput: '1452950043541' }
  			   ];
 
  	var app = angular.module('gemStore', []);
