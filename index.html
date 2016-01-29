@@ -31,7 +31,8 @@
         <td>{{product.price | currency: '&euro;' : 2}}</td>
         <td>{{product.dateInput | date: 'dd/MM/yyyy @ h:mma' }}</td>
         <td>{{"El precio del producto "+ product.name + " multiplicado por 3 es "}}
-            {{3*product.price | currency: '&euro;' : 2}}}</td>
+            {{3*product.price | currency: '&euro;' : 2}}</td>
+        <td><img ng-src="{{product.image}}"></td>
         <td><button ng-hide="product.canPurchase">Comprar</button></td>
       </tr>
     </table>
