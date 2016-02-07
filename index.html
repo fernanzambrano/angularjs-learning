@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-
-
 <html ng-app="gemStore">
   <head>
+      <meta charset="UTF-8">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
       integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   </head>
@@ -12,32 +11,72 @@
 <body ng-controller="StoreController as store">
 
   <div class="panel panel-default">
-    <div class="panel-heading"><b>Cabecera</b></div>
+    <div class="panel-heading"><b>Listado de Productos</b></div>
     <div class="panel-body">
-      <p></p>
+      <table class="table">
+        <thead>
+          <td><b>Nombre</b></td>
+          <td><b>Descripcion</b></td>
+          <td><b>Precio</b></td>
+          <td></td>
+        </thead>
+
+        <tbody ng-init="store.selectProduct(store.products[0])">
+          <tr ng-repeat="product in store.products | limitTo:20" 
+              ng-show="product.visible"
+              ng-click="store.selectProduct(product)" 
+              ng-class="{active:store.isProductSelected(product)}" >               
+            <td>{{product.name}}</td>
+            <td>{{product.description}}</td>
+            <td>{{product.price | currency: '&euro;' : 2}}</td>
+            <td><button type="button" class="btn btn-primary" ng-show="product.canPurchase">Comprar</button></td>
+          </tr>
+        </tbody>
+      </table>      
     </div>
 
-    <table class="table">
-      <thead>
-        <td>Nombre</td>
-        <td>Precio</td>
-        <td>Fecha Entrada</td>
-        <td>Comentario</td>
-        <td></td>
-      </thead>
+    <div class="panel panel-default">
+      <div class="panel-heading"><b>Producto Seleccionado</b></div>
+      <div class="panel-body">
+         <section ng-init="store.selectTab(1)">
+            <ul class="nav nav-pills">
+                <li ng-class="{active:store.isTabSelected(1)}">
+                  <a href ng-click="store.selectTab(1)">Comentario</a></li>
+                <li ng-class="{active:store.isTabSelected(2)}">
+                  <a href ng-click="store.selectTab(2)">Detalles</a></li>
+                <li ng-class="{active:store.isTabSelected(3)}">
+                  <a href ng-click="store.selectTab(3)">Imagen</a></li>
+            </ul>
 
-      <tr ng-repeat="product in store.products | limitTo:20 | orderBy:'price'" ng-show="product.visible">
-        <td>{{product.name}}</td>
-        <td>{{product.price | currency: '&euro;' : 2}}</td>
-        <td>{{product.dateInput | date: 'dd/MM/yyyy @ h:mma' }}</td>
-        <td>{{"El precio del producto "+ product.name + " multiplicado por 3 es "}}
-            {{3*product.price | currency: '&euro;' : 2}}</td>
-        <td><img ng-src="{{product.image}}"></td>
-        <td><button ng-hide="product.canPurchase">Comprar</button></td>
-      </tr>
-    </table>
- 
+            <br>
+            
+            <div class="panel" ng-show="store.isTabSelected(1)" style="width: 60%">      
+              <p>{{store.currentProduct.name}} - {{store.currentProduct.comment}}</p>    
+            </div>
+            <div class="panel" ng-show="store.isTabSelected(2)" style="width: 60%">      
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td>Nombre:</td><td>{{store.currentProduct.name}}</td>
+                  </tr>
+                  <tr>
+                    <td>Descripción:</td><td>{{store.currentProduct.description}}</td>
+                  </tr>            
+                  <tr>
+                    <td>Fecha Entrada:</td><td>{{store.currentProduct.dateInput | date:'yyyy/MM/dd hh:mm'}}</td>
+                  </tr>
+                  <tr>
+                    <td>Precio:</td><td>{{store.currentProduct.price | currency:'&euro;' : 2}}</td>
+                  </tr>          
+                </tbody>
+
+              </table> 
+            </div>
+            <div class="panel" ng-show="store.isTabSelected(3)" style="width: 60%">
+              <p><img ng-src="{{store.currentProduct.image}}"></p>    
+            </div>
+          </section>              
+      </div>    
   </div>
-
 </body>
 </html>
