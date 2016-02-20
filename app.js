@@ -18,18 +18,19 @@
  				},
  				{ name: 'Amatista', price: 4000, visible: true, 
  				  canPurchase: true, dateInput: '1452950043541',
- 				  image: 'images/amatista.jpg', description: 'Piedra semi-preciosa de colo morado.',
+ 				  image: 'images/amatista.jpg', description: 'Piedra semi-preciosa de color morado.',
  				  comment: 'Como ya sabemos, la amatista fue considerada piedra preciosa, pero, tras el descubrimiento de minas en Brasil, su rareza perdió enteros y pasó a formar parte del grupo de piedras semipreciosas'
  				}  				
  			   ];
-
- 	
+	
  	var app = angular.module('gemStore', []);
  	app.controller('StoreController', storeCtl);
 
  	function storeCtl(){
+
    		this.products = gems;
-   			
+   		this.form = { visible: false, title: 'Sin título', typeOperation: 'init' };
+  			
    		this.selectTab = function(selTab) {
    			this.tab = selTab;
    		};
@@ -45,6 +46,89 @@
    		this.isProductSelected = function(productToEvaluate) {
    			return this.currentProduct === productToEvaluate;
    		};
-  	}
-  
+
+  		this.setForm = function(visible, title, typeOperation, disableName) {
+ 			this.form.visible = visible;
+ 			this.form.title = title;
+ 			this.form.typeOperation = typeOperation;
+ 			this.form.disableName = disableName;
+ 		};
+
+ 		this.formIsVisible = function() {
+ 			return this.form.visible;
+ 		};
+
+ 		this.disableName = function() {
+ 			return this.form.disableName;
+ 		};    		
+
+   		this.setProduct = function(typeOperation) {
+   			if (typeOperation === 'add') {
+   				this.product = {};
+   				this.setForm(true, 'Alta Producto', typeOperation, false);
+   			} else if (typeOperation === 'update') {
+   				this.product = this.clone(this.currentProduct);
+   				this.setForm(true, 'Modificar Producto', typeOperation, true);
+   			} else if (typeOperation === 'delete') {
+   				this.product = this.clone(this.currentProduct);
+   				this.setForm(true, 'Baja Producto', typeOperation, true);   				
+   			} else {
+   				this.setForm(false, 'Sin Título', typeOperation);
+   			}   			
+   		};
+
+ 		this.manageProduct = function() {
+ 			if (this.form.typeOperation === 'add') {
+ 				this.addProduct();
+ 			} else if (this.form.typeOperation === 'update') {
+ 				this.updateProduct();
+ 			} else {
+ 				this.deleteProduct();
+ 			}
+ 		};   		
+
+   		this.addProduct = function() {
+   			this.product.visible = true;
+   			this.product.canPurchase = true;
+   			this.product.dateInput = Date.now();
+   			this.product.image="images/nothing";
+   			this.products.push(this.product);
+
+   			this.setForm(false, 'Sin titulo')
+   			gems = this.products;
+   		};
+
+  		this.updateProduct = function() {
+  			var i = this.locateProduct();
+ 			this.products[i].description = this.product.description;
+ 			this.products[i].price = this.product.price;
+  			this.products[i].comment = this.product.comment;
+
+  			this.product = {};
+  			this.setForm(false, 'Sin titulo')
+   			gems = this.products;
+   		};
+
+   		this.deleteProduct = function() {
+   			var i = this.locateProduct();
+   			this.products.splice(i,1);
+
+   			this.product = {};
+   			this.currentProduct = {};
+  			this.setForm(false, 'Sin titulo')
+   			gems = this.products;	
+   		};
+
+   		this.locateProduct = function() {
+			for (var i = 0; i < this.products.length; i++) { 
+  				if (this.products[i].name === this.product.name) { 
+    				return i;
+  				} 
+			}
+   		};
+
+   		this.clone = function(obj) {
+    		return JSON.parse(JSON.stringify(obj));
+		};
+  	};  
 })();
