@@ -8,110 +8,19 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
 
-  <body ng-controller="StoreController as store">
+  <body>
 
-    <div  class="panel panel-primary">
-      <div class="panel-heading"><b>Listado de Productos</b></div>
-        <div class="row">
-          <div class="col-xs-6">
-            <div class="panel-body">
-              <table class="table">
-                <thead>
-                  <td><b>Nombre</b></td>
-                  <td><b>Descripcion</b></td>
-                  <td><b>Precio</b></td>
-                  <td></td>
-                </thead>
+    <table>
+      <tr><br></tr>
+      <tr>
+        <td width="10%"></td>
+        <td>
+          <storeproducts>            
+          </storeproducts>
+        </td>
+        <td width="10%"></td>
+      </tr>
+    </table>
 
-                <tbody ng-init="store.selectProduct(store.products[0])">
-                  <tr ng-repeat="product in store.products | limitTo:20" 
-                      ng-show="product.visible"
-                      ng-click="store.selectProduct(product); store.setProduct('init')" 
-                      ng-class="{active:store.isProductSelected(product)}" >               
-                    <td>{{product.name}}</td>
-                    <td>{{product.description}}</td>
-                    <td>{{product.price | currency: '&euro;' : 2}}</td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>      
-            </div>
-            <div class="panel-footer">
-              <button type="button" ng-click="store.setProduct('add')" class="btn btn-primary">Añadir</button>
-              <button type="button" ng-click="store.setProduct('update')" class="btn btn-primary">Modificar</button>
-              <button type="button" ng-click="store.setProduct('delete')" class="btn btn-primary">Borrar</button>
-            </div>          
-          </div>
-          <div class="col-xs-6">
-            <div class="panel-body">
-               <section ng-init="store.selectTab(1)">
-                  <ul class="nav nav-pills">
-                      <li ng-class="{active:store.isTabSelected(1)}">
-                        <a href ng-click="store.selectTab(1)">Comentario</a></li>
-                      <li ng-class="{active:store.isTabSelected(2)}">
-                        <a href ng-click="store.selectTab(2)">Detalles</a></li>
-                      <li ng-class="{active:store.isTabSelected(3)}">
-                        <a href ng-click="store.selectTab(3)">Imagen</a></li>
-                  </ul>
-
-                  <br>
-
-                  <div class="panel" ng-show="store.isTabSelected(1)" style="width: 60%">      
-                    <p>{{store.currentProduct.name}} {{store.currentProduct.comment}}</p>    
-                  </div>
-                  <div class="panel" ng-show="store.isTabSelected(2)" style="width: 60%">      
-                    <table class="table table-striped">
-                      <tbody>
-                        <tr>
-                          <td>Nombre:</td><td>{{store.currentProduct.name}}</td>
-                        </tr>
-                        <tr>
-                          <td>Descripción:</td><td>{{store.currentProduct.description}}</td>
-                        </tr>            
-                        <tr>
-                          <td>Fecha Entrada:</td><td>{{store.currentProduct.dateInput | date:'yyyy/MM/dd HH:mm'}}</td>
-                        </tr>
-                        <tr>
-                          <td>Precio:</td><td>{{store.currentProduct.price | currency:'&euro;' : 2}}</td>
-                        </tr>          
-                      </tbody>
-
-                    </table> 
-                  </div>
-                  <div class="panel" ng-show="store.isTabSelected(3)" style="width: 60%">
-                    <p><img ng-src="{{store.currentProduct.image}}"></p>    
-                  </div>            
-                </section>                    
-            </div>
-
-               <div ng-show="store.formIsVisible()" class="panel panel-primary">
-                  <div class="panel-heading">{{store.form.title}}</div>
-                  <div class="panel-body">
-                    <form role="form" name="productForm" ng-submit="productForm.$valid && store.manageProduct()">
-                      <div class="form-group" style="width: 60%">
-                        <label for="name">Nombre</label>
-                        <input ng-model="store.product.name" ng-disabled="store.disableName()" required type="text" class="form-control" id="name" placeholder="Introduce un nombre ...">
-                      </div>
-                      <div class="form-group" style="width: 70%">
-                        <label for="description">Descripción</label>
-                        <input ng-model="store.product.description" required type="text" class="form-control" id="descripton" placeholder="Introduce una descripción ...">
-                      </div>            
-                      <div class="form-group" style="width: 20%">
-                        <label for="price">Precio</label>
-                        <input ng-model="store.product.price" required type="number" min="1" class="form-control" id="price" placeholder="Introduce un precio ...">
-                      </div>
-                      <div class="form-group">
-                        <label for="comment">Comentario</label>
-                        <textarea ng-model="store.product.comment" required class="form-control" rows="3" id="comment" placeholder="Introduce un comentario ..."></textarea>
-                      </div>
-
-                      <input type="submit" value="Aceptar " class="btn btn-primary"/>
-                      <input type="button" value="Cancelar " ng-click="store.setProduct('init')" class="btn btn-cancel"/>
-                    </form> 
-                  </div>
-                </div> 
-          </div>        
-        </div>
-    </div>
   </body>
   </html>

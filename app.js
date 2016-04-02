@@ -24,7 +24,16 @@
  			   ];
 	
  	var app = angular.module('gemStore', []);
- 	app.controller('StoreController', storeCtl);
+ 	app.directive('storeproducts', storeProducts);
+
+ 	function storeProducts(){
+		return {
+ 			restrict: 'E',
+ 			templateUrl: 'storeproducts.html',
+      controller: storeCtl,
+      controllerAs: 'store'
+ 		};
+ 	};
 
  	function storeCtl(){
 
